@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>crad</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div id="error-msgs"></div>
+            <div class="col-md-5">
+                <label>Name</label> // product name 
+                <input type="text" class="form-control" name="name" id="form-name" />
+            </div>
+            <div class="col-md-5">
+                <label>Email</label> // product descripation , product orignal price , product sell price
+                <input type="email" class="form-control" name="email" id="form-email" />
+            </div>
+            <div class="col-md-2">  
+                <button type="button" class="btn btn-info" onclick="submitForm()"> submit </button>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <table class="table table-responsive">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+<script>
+    let data = [] // array for store all form data (table ke liye)
+    let editReffId = null  // edit me id ka use karna hai kyo ki submit button pe add bhi hota hai
+    function submitForm() {  // submit button click
+        const date =  new Date(); 
+        const id = date.getTime();  // get milisecond time for create unque id
+        const name = getValue('form-name') // get form name for add/edit
+        const email = getValue('form-email') // get form email for add/edit
+        // apply validation before save/update value (required)
+        if (!!name && !!email) {  // todo need to add email validation 
+            if(!!editReffId){  // check it is on edit mode or add mode 
+               //edit code
+               data = data.map((itm)=>{ // run loop for get edit array object
+                   const {id}=itm  // get old row (obj) id for match condtion
+                   if(id === editReffId){
+                     // edited code
+                     return {name,email,id}
+                   }else{  // save old info bcs we don't need to edit this obj
+                       return itm
+                    // old saved code
+                   }
+               })
+              setError('edit success','success')   // show edit success msg after form edit success
+            }else{
+                //add code
+                data = [...data , {name,email,id}]  // code for add new entry
+                setError('save success','success')  // set save success msg after add new entry
+            }
+            editReffId=null   // reset edit reff id after submit both form 
+            setValue('form-name','')  // reset name form field 
+            setValue('form-email','') // reset email form field 
+            setValueOnTable()  // show save/edit information on table method
+        } else {
+            setError('please fill valid form','danger') // if we got any error then skip saving and show error msg
+        }
+    }
+    function getValue(id) {
+        return document.getElementById(id).value
+    }
+    function setError(msg,type = 'danger') {
+        const errorElement = `<div class="alert alert-${type}">${msg}</div>`
+        document.getElementById('error-msgs').innerHTML = errorElement
+    }
+    function setValue(id,value){
+        document.getElementById(id).value=value
+    }
+    function delte(id){
+        data = data.filter((itm,index)=>{
+            return itm.id !== id
+        })
+        setError('delete success','success')
+        setValueOnTable()
+    }
+    function setValueOnTable(){
+      let str=''
+      data.forEach((itm,index)=>{
+          const {name,email,id}=itm
+          const actionButton = `<button class='btn btn-info' onclick='edit(${id})'>Edit</button> <button class='btn btn-danger' onclick='delte(${id})'>Delete</button>`
+          str = `${str} <tr><td>${name}</td><td>${email}</td><td>${actionButton}</td></tr>`
+      })
+      document.querySelector('tbody').innerHTML=str
+    }
+    function edit(editId){
+       const result = data.find((itm,index)=>{
+           return itm.id === editId
+       })
+       const {name,email}= result
+       setValue('form-name',name)
+       setValue('form-email',email)
+       editReffId = editId
+    }
+</script>
+
+</html>

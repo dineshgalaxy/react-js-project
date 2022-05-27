@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #color-switcher{
+            padding-bottom: 40px;
+        }
+        .btn{
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+            border:1px solid chartreuse;
+        }
+        #black{
+            background-color: black;
+        }
+         #blue{
+            background-color: blue;
+        }
+         #orange{
+            background-color: orange;
+        }
+         #red{
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+    <div id="color-switcher">
+        <span class="btn" id="black" onclick="bgChange('black')"></span>
+        <span class="btn" id="blue"  onclick="bgChange('blue')"></span>
+        <span class="btn" id="orange"  onclick="bgChange('orange')"></span>
+        <span class="btn" id="red"  onclick="bgChange('red')"></span>
+
+
+    </div>
+        <img src="https://cdn.pixabay.com/photo/2022/04/26/15/47/leaves-7158637_960_720.jpg"/>
+    
+</body>
+<script>
+    const bgChange = (color) =>{
+        document.body.style.backgroundColor = color;
+    }
+</script>
+</html>

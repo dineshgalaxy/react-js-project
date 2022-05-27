@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h1 id="h1">Hello i am Javascript</h1>
+  <form id="myForm">
+    <input type="text" onkeyup="validatedata()" id="inputBox" placeholder="please enter your name"/>
+    <input type="submit" value="submit">
+  </form>
+</body>
+<script>
+   function validatedata(){
+     let ptrn = /([0-9]*)$/;
+     let form1 = document.getElementById("inputBox");
+     if(ptrn.test(form1)){
+      form1.style.backgroundColor = "green"
+     }else{
+            form1.style.backgroundColor = "red"
+
+     }
+   }
+   form1.addEventListener("keyup",validatedata)
+</script>
+</html>

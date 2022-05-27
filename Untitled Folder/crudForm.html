@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <style>
+      #posts div {
+        display: flex;
+        align-items: center;
+      }
+      i {
+        cursor: pointer;
+      }
+      .error {
+        color: red;
+      }
+      .container {
+        display: flex;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="left">
+        <form id="form">
+          <label></label>
+          <textarea name="" id="input" cols="30" rows="10"></textarea>
+          <div id="msg" class="error"></div>
+          <br /><br />
+          <button type="submit">Create</button>
+        </form>
+      </div>
+      <div class="right">
+        <h3>Your posts here</h3>
+
+        <div id="posts">
+          <table class="table table-responsive">
+            <thead>
+              <tr>
+                <th>id</th>
+                <th>Name</th>
+                <th>Email</th>
+              </tr>
+            </thead>
+            <tbody id="tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script>
+    let form = document.getElementById("form");
+    let input = document.getElementById("input");
+    let msg = document.getElementById("msg");
+    let posts = document.getElementById("posts");
+    let delpost = document.getElementById("delPost");
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      console.log("button clicked");
+      formValidation();
+    });
+
+    let formValidation = () => {
+      if (input.value === "") {
+        msg.innerHTML = "Post can not be blank";
+        console.log("failure");
+      } else {
+        console.log("successs");
+        msg.innerHTML = "";
+        acceptData();
+      }
+    };
+    let data = {};
+
+    let acceptData = () => {
+      data["text"] = input.value;
+      console.log(data);
+      createPost();
+    };
+    let createPost = () => {
+      document.getElementById("tbody").innerHTML = `
+        <tr>
+            <td>${data.text}</td>
+            <td>${data.text}</td>    
+            <td>${data.text}</td>    
+
+            <td><button>update</button></td>
+            <td><button onClick="deletePost(this)">delete</button></td>
+        </tr>
+        `;
+      input.value = "";
+    };
+    let deletePost = (e) => {
+      e.parentElement.parentElement.remove();
+    };
+  </script>
+</html>

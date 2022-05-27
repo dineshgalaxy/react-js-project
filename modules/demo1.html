@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <form id="formId">
+      <input type="text" id="fname1" onblur="myFunction('fname1','errorMsg1')"/>
+      <p id="errorMsg1"></p>
+      <p>
+        <input type="text" id="fname2" onblur="myFunction('fname2','errorMsg2')"/>
+      </p>
+
+      <p id="errorMsg2"></p>
+      
+        <button onclick="submit()">submit</button>
+      
+    </form>
+  </body>
+  <script>
+    let form1 = document.getElementById("formId");
+    form1.addEventListener("blur", myfun);
+    function myfun(ed,errorMsg) {
+        valReq(ed,errorMsg)
+    }
+    function valReq(ed,errorMsg){
+        let x = document.getElementById(ed)
+        if(x.value.trim() === ''){
+                document.getElementById(errorMsg).innerHTML = "error"
+        }else{
+            document.getElementById(errorMsg).innerHTML = ""
+
+        }
+    }
+    
+
+    function submit() {
+      const a = valReq("fname1", "errorMsg1");
+      const b = valReq("fname2", "errorMsg2");
+      if (a && b) {
+        console.log("success");
+      } else {
+        console.log("faliure");
+      }
+    }
+
+
+// function myFunction(id,errorI) {
+//  valReq(id,errorI)
+// }
+// function valReq(id,errorI){
+//  var x = document.getElementById(id);
+//  var isValid = true 
+//   if(x.value.trim() == ''){
+//   document.getElementById(errorI).innerHTML = "invalid value";
+// }
+// else{
+//   document.getElementById(errorI).innerHTML = '' 
+// }
+// }
+
+// function submit(){
+//     const firstfiledvalid =   valReq('fname1','errorMsg1');
+//     const secondfiledvalid =   valReq('fname2','errorMsg2');
+// if(firstfiledvalid && secondfiledvalid){
+//     console.log('success');
+// }else{
+//     console.log('faliure');
+// }
+
+// }
+
+  </script>
+</html>

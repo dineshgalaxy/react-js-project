@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+     <div>
+      <input id="textbox" type="text" onkeyup="wordCount()"></textarea>
+      <p>
+        <span id="word">0</span> word and <span id="char">0</span> characters
+      </p>
+    </div>
+</body>
+<script>
+     let x = document.getElementById("textbox");
+     function wordCount(){
+        let b = x.value;
+        document.getElementById("char").innerHTML = b.length;        
+        b = b.trim();
+        let counter = b.split(" ");
+          document.getElementById("word").innerHTML = counter.filter(function(val){
+            return val != ""
+          }).length
+     }
+</script>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>crud example</title>
+    <style>
+      .error{
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        
+        <form id="form" >
+        <input type="hidden" id="formId" />
+        <div class="col-md-5">
+          <label>Name</label>
+          <input type="text" class="form-control" name="name" id="formName" />
+       <div id="nameError" class="error"></div>
+        </div>
+        <div class="col-md-5">
+          <label>Email</label>
+          <input
+            type="email"
+            class="form-control"
+            name="email"
+            id="formEmail"
+          />
+          <div id="emailError" class="error"></div>
+        </div>
+        <div class="col-md-2">
+          <button type="submit" class="btn btn-info" >
+            submit
+          </button>
+        </div>
+        </form>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+        <table class="table table-responsive">
+          <thead>
+            <tr>
+              <th>id</th>
+              <th>Name</th>
+              <th>Email</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </body>
+  <script>
+    let list = [];
+      // let name = document.getElementById("nameError");
+      // let email = document.getElementById("emailError");
+
+    document.getElementById("form").addEventListener('submit', submitForm)
+    function submitForm(event) {
+        event.preventDefault();
+        const elements = event.target.elements 
+        const updateMethod = !!elements.formId.value
+        const item = {
+            id : updateMethod ? elements.formId.value :  new Date().getTime(),
+            name: elements.name.value,
+            email: elements.email.value
+        }
+
+      console.log( item)
+        if(!item.name) {
+          nameError.innerHTML = "Please fill input field"
+          // emailError.innerHTML = "Please fill email field"
+        }else if(!item.email){
+          emailError.innerHTML = "Please fill email field"
+        }else {
+            if(updateMethod) {
+                update(item)
+            } else {
+                add(item)
+            }
+            nameError.innerHTML="";
+            emailError.innerHTML=""
+        }
+
+        document.getElementById("id").value = '';
+    }
+
+    function add(item) {
+        list = [...list, item];
+        displayList();
+    }
+    function remove(id) {
+        list = list.filter((item) => item.id !== id)
+        displayList()
+    }
+   function update(newItem) {
+        list = list.map(item => {
+            if(item.id == newItem.id) {
+                return {...newItem, id: Number(newItem.id)}
+            }
+
+            return item
+        })
+         displayList();
+    }
+    
+
+    function updateClick(id) {
+        const item = list.find((item) => item.id === id)
+        if(item) {
+            document.getElementById("formName").value = item.name
+            document.getElementById("formEmail").value = item.email
+            document.getElementById("formId").value = item.id
+        }
+    }
+
+    const displayList = () => {
+      let tab = "";
+      list.forEach(function (value) {
+        tab = `${tab}<tr>
+                             <td>${value.id}</td>
+                             <td>${value.name}</td>
+                            <td>${value.email}</td>
+                            <td><button onclick="remove(${value.id})">Delete</button></td>
+                            <td><button onclick="updateClick(${value.id})">Update</button></td>
+                        </tr>`;
+      });
+      document.querySelector("tbody").innerHTML = tab;
+    };
+  </script>
+</html>
